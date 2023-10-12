@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematical Skill Use Cases - 1-Step Equations Word Problems</title>
+    <link rel="stylesheet" type="text/css" href="glass-light.css" />
+
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KDFW3MSD');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KDFW3MSD"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <header>
+        <h1>Math in Context: 1-Step Equations Word Problems</h1>
+    </header>
+
+    <div class="container">
+        <div class="use-case">
+            <h2>Archaeoastronomy</h2>
+            <p>
+                Archaeoastronomers study ancient structures and their alignment with celestial events. To determine the age of a historical site, they might need to solve a one-step equation involving the number of years since a significant celestial event, like a solar eclipse.
+            </p>
+            <div class="feedback-buttons">
+                <button class="interesting">Interesting<span>&#129299;</span></button>
+                <button class="funny">Funny<span>&#128514;</span></button>
+                <button class="boring">Boring<span>&#128564;</span></button>
+                <button class="bad">Bad<span>&#128530;</span></button>
+            </div>
+        </div>
+
+        <div class="use-case">
+            <h2>Ice Cream Chemistry</h2>
+            <p>
+                Ice cream chemists create new flavors by adjusting ingredient ratios. They need to calculate the amount of each ingredient needed to make a specific flavor, which involves solving one-step equations.
+            </p>
+            <div class="feedback-buttons">
+                <button class="interesting">Interesting<span>&#129299;</span></button>
+                <button class="funny">Funny<span>&#128514;</span></button>
+                <button class="boring">Boring<span>&#128564;</span></button>
+                <button class="bad">Bad<span>&#128530;</span></button>
+            </div>
+        </div>
+
+        <div class="use-case">
+            <h2>Digital Paleontology</h2>
+            <p>
+                Digital paleontologists use 3D modeling to reconstruct fossilized bones. They might need to solve equations to scale down the size of a digital model for printing.
+            </p>
+            <div class="feedback-buttons">
+                <button class="interesting">Interesting<span>&#129299;</span></button>
+                <button class="funny">Funny<span>&#128514;</span></button>
+                <button class="boring">Boring<span>&#128564;</span></button>
+                <button class="bad">Bad<span>&#128530;</span></button>
+            </div>
+        </div>
+
+        <div class="use-case">
+            <h2>Fashion Sustainability</h2>
+            <p>
+                Sustainable fashion designers work on reducing waste by using fabric efficiently. They may need to calculate the length of fabric required to make a garment, involving one-step equations.
+            </p>
+            <div class="feedback-buttons">
+                <button class="interesting">Interesting<span>&#129299;</span></button>
+                <button class="funny">Funny<span>&#128514;</span></button>
+                <button class="boring">Boring<span>&#128564;</span></button>
+                <button class="bad">Bad<span>&#128530;</span></button>
+            </div>
+        </div>
+
+        <div class="use-case">
+            <h2>Robot Psychology</h2>
+            <p>
+                Robot psychologists study human-robot interactions. They may need to determine how long it takes for a robot to recognize a specific command, which involves solving a one-step equation related to reaction time.
+            </p>
+            <div class="feedback-buttons">
+                <button class="interesting">Interesting<span>&#129299;</span></button>
+                <button class="funny">Funny<span>&#128514;</span></button>
+                <button class="boring">Boring<span>&#128564;</span></button>
+                <button class="bad">Bad<span>&#128530;</span></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="functions.js"></script>
+    <script>
+        // Add event listeners to all feedback buttons
+        var feedbackButtons = document.querySelectorAll('.feedback-buttons button');
+        feedbackButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                pushReactionInfoToDataLayer(this);
+                disableFeedbackButtons(this);
+            });
+        });
+    </script>
+</body>
+</html>

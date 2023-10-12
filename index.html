@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>When Will I Use This Skill?</title>
+    <link rel="stylesheet" type="text/css" href="glass-light.css" />
+
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
+        // Single Page Apps for GitHub Pages
+        // MIT License
+        // https://github.com/rafgraph/spa-github-pages
+        // This script checks to see if a redirect is present in the query string,
+        // converts it back into the correct url and adds it to the
+        // browser's history using window.history.replaceState(...),
+        // which won't cause the browser to attempt to load the new url.
+        // When the single page app is loaded further down in this file,
+        // the correct url will be waiting in the browser's history for
+        // the single page app to route accordingly.
+        (function(l) {
+            if (l.search[1] === '/' ) {
+            var decoded = l.search.slice(1).split('&').map(function(s) { 
+                return s.replace(/~and~/g, '&')
+            }).join('?');
+            window.history.replaceState(null, null,
+                l.pathname.slice(0, -1) + decoded + l.hash
+            );
+            }
+        }(window.location))
+        </script>
+        <!-- End Single Page Apps for GitHub Pages -->
+
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-KDFW3MSD');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KDFW3MSD"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header>
+        <h1>[Loading ...]</h1>
+    </header>
+    <main>
+        <div class="container">
+            [Loading ...]
+        </div>
+    </main>
+
+    <!-- <script src="./functions.js"></script> -->
+    <script type="module">
+        // Route + Render page. 
+        import { useCases } from "./use-cases.js";
+
+        let isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+        // Set a random student id to use if one was not provided in the link:
+        if (!localStorage.getItem('studentID')) {
+            const randomID = Math.floor(Math.random() * 1000000000);
+            localStorage.setItem('studentID', randomID.toString());
+        }
+        const studentID = localStorage.getItem('studentID');
+        
+        // JavaScript function to disable feedback buttons for the specific use case
+        function disableFeedbackButtons(clickedButton) {
+            // Find the parent use-case div containing the clicked button
+            var useCaseDiv = clickedButton.closest('.use-case');
+            
+            // Find all buttons within the specific use-case div
+            var feedbackButtons = useCaseDiv.querySelectorAll('.feedback-buttons button');
+            
+            // Loop through all buttons in the specific use case
+            for (var i = 0; i < feedbackButtons.length; i++) {
+                feedbackButtons[i].disabled = true; // Disable all buttons in the specific use case
+            }
+            
+            // Enable the clicked button
+            clickedButton.disabled = false;
+        }
+
+        function pushReactionInfoToDataLayer(clickedButton) {
+            const urlParams = new URLSearchParams(window.location.search);
+            var useCaseDiv = clickedButton.closest('.use-case');
+            let bestStudentID = urlParams.get('student') || studentID;
+            window.dataLayer = window.dataLayer || [];
+                dataLayer.push({'event': 'reaction', 'user': bestStudentID, 'skill': urlParams.get('skill'), 'useCase': useCaseDiv.children[0].innerText, 'reaction': clickedButton.className}); 
+        }
+
+        // Function to handle different routes
+        function route(path) {
+            let [pathName, search] = path.split("?");
+            // Github deploy has a subfolder in path
+            if (isLocalhost) {
+                pathName = pathName.replace(/^\//, ''); // Remove leading slash if present
+            } else {
+                pathName = pathName.replace(/^\/WhenWillIUseThisSkill\//, ''); // Remove subfolder if present.
+            }
+            const query = new URLSearchParams(search);
+
+            let title = "When will I use this?";
+            let contentHTML = "";
+            
+            if ([""].includes(pathName)) {
+                // Render Home
+                title = `When Will I Use This Skill?`;
+                let listOfLinks = useCases.map((skill)=>{
+                    return `<li><a href="/${skill.skill}?student=${studentID}&skill=${skill.skill}">${skill.name}</a></li>`
+                }).join("");
+                contentHTML = `<ul>${listOfLinks}</ul>`;
+            } else {
+                useCases.forEach(skill => {
+                    if (skill.skill.toString() === pathName) {
+                        title = `Math in Context: ${skill.name}`;
+                        const buttonsHTML = [
+                            {className: "interesting", text: "Interesting", icon: "&#129299;"},
+                            {className: "funny", text: "Funny", icon: "&#128514;"},
+                            {className: "boring", text: "Boring", icon: "&#128564;"},
+                            {className: "bad", text: "Bad", icon: "&#128530;"},
+                        ].map((buttonData)=>{
+                            return `<button class="${buttonData.className}">${buttonData.text}<span>${buttonData.icon}</span></button>`;
+                        }).join("");
+                        contentHTML = skill.examples.map((useCaseExample)=>{
+                            return `<div class="use-case">
+                                <h2>${useCaseExample.title}</h2>
+                                <p>${useCaseExample.content}</p>
+                                <div class="feedback-buttons">
+                                    ${buttonsHTML}
+                                </div>
+                            </div>`;
+                        }).join("");
+                    }
+                });
+
+                if (!contentHTML) {
+                    // Page hasn't been assigned, show a 404
+                    title = "404: Page Not Found";
+                    contentHTML = "<p>Sorry about this! The link you followed doesn't seem to be connected to anything. See <a href='/'>a list of all skills</a>?</p>";
+                }
+            }
+
+            let heading = document.querySelector('header h1');
+            if (heading) {
+                heading.innerHTML = title;
+            }
+            let content = document.querySelector('main .container');
+            if (content) {
+                content.innerHTML = contentHTML;
+            }
+
+            // Attach events to any relevant buttons
+            var feedbackButtons = document.querySelectorAll('.feedback-buttons button');
+            feedbackButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    pushReactionInfoToDataLayer(this);
+                    disableFeedbackButtons(this);
+                });
+            });
+        }
+
+        // Update URL and route programmatically
+        function navigateTo(path) {
+            if (!isLocalhost) {
+                path = "/WhenWillIUseThisSkill" + path;
+            }
+            history.pushState({}, '', path);
+            route(path);
+        }
+
+        // Listen for popstate events (Back and Forward buttons)
+        window.addEventListener('popstate', function (e) {
+            route(window.location.pathname + window.location.search);
+        });
+
+        // Intercept clicks on links
+        document.addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') {
+                e.preventDefault();
+                const path = e.target.getAttribute('href');
+                navigateTo(path);
+            }
+        });
+
+        // Handle other UI elements like buttons
+        document.addEventListener('click', function (e) {
+            if (e.target.tagName === 'BUTTON') {
+                const path = e.target.getAttribute('data-route');
+                if (path) navigateTo(path);
+            }
+        });
+
+        // Initialize route on page load
+        route(window.location.pathname + window.location.search);
+    </script>
+</body>
+</html>
