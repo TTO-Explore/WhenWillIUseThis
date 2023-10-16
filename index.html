@@ -165,7 +165,7 @@
         // Update URL and route programmatically
         function navigateTo(path) {
             if (!isLocalhost) {
-                path = "/WhenWillIUseThisSkill" + path;
+                path = "/WhenWillIUseThis" + path;
             }
             history.pushState({}, '', path);
             route(path);
