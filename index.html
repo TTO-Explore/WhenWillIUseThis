@@ -86,7 +86,7 @@
         function pushReactionInfoToDataLayer(clickedButton) {
             const urlParams = new URLSearchParams(window.location.search);
             var useCaseDiv = clickedButton.closest('.use-case');
-            let bestStudentID = urlParams.get('student') || studentID;
+            let bestStudentID = studentID; // urlParams.get('student') || studentID; // TODO: Revert - one of the links that went out has a hard-coded student id, so this is the next best option until the IDs are generated on the platform side and passed programmatically.
             window.dataLayer = window.dataLayer || [];
                 dataLayer.push({'event': 'reaction', 'user': bestStudentID, 'skill': urlParams.get('skill'), 'useCase': useCaseDiv.children[0].innerText, 'reaction': clickedButton.className}); 
         }
